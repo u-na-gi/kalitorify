@@ -228,6 +228,9 @@ setup_iptables() {
                 iptables -t nat -A OUTPUT -d $lan -j RETURN
             done
 
+            # Allo input ssh access 
+            iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
             # Redirects all other pre-routing and output to Tor's TransPort
             iptables -t nat -A OUTPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -j REDIRECT --to-ports $trans_port
 
